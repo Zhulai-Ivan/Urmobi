@@ -15,6 +15,7 @@ Assets/Plugins/Editor/JetBrains*
 Assets/AssetStoreTools*
 # Unity local user project setting
 UserSettings/
+Logs/
 
 # Visual Studio cache directory
 .vs/
@@ -46,5 +47,7 @@ sysinfo.txt
 # Builds
 *.apk
 *.unitypackage
+
+
 
 # End of https://www.gitignore.io/api/unity
