@@ -1,0 +1,73 @@
+{
+    "objects": [
+        {
+            "id": -10518,
+            "name": "Grape2",
+            "type": 0,
+            "position": {
+                "x": 15.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "rotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "layer": "InteractiveObject",
+            "isActive": true,
+            "producedObjectId": ""
+        },
+        {
+            "id": -10072,
+            "name": "Banana",
+            "type": 2,
+            "position": {
+                "x": -15.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "rotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "layer": "InteractiveObject",
+            "isActive": true,
+            "producedObjectId": ""
+        },
+        {
+            "id": -9060,
+            "name": "Apple",
+            "type": 0,
+            "position": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "rotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "layer": "InteractiveObject",
+            "isActive": true,
+            "producedObjectId": ""
+        }
+    ]
+}
