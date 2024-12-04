@@ -1,4 +1,5 @@
-﻿using Providers;
+﻿using Loaders;
+using Providers;
 using Zenject;
 
 namespace Installers
@@ -7,9 +8,16 @@ namespace Installers
     {
         public override void InstallBindings()
         {
-            Container.Bind<IResourcesProvider>().
-                To<AddressablesProvider>()
+            Container.Bind<IResourcesProvider>()
+                .To<AddressablesProvider>()
                 .AsSingle();
+
+            Container.Bind<IDataLoader>()
+                .To<JsonLoader>()
+                .AsSingle();
+            
+           Container.Bind<LevelLoader>()
+               .AsSingle();
         }
     }
 }
