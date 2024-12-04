@@ -27,7 +27,7 @@ namespace Editor
         {
             GUILayout.Label("Level Export Tool", EditorStyles.boldLabel);
 
-           // Output path
+            // Output path
             GUILayout.Label("Output path: ");
             _outputPath = EditorGUILayout.TextField(_outputPath);
 
@@ -49,7 +49,7 @@ namespace Editor
             {
                 Export();
             }
-            
+
             GUILayout.Label("Import", EditorStyles.boldLabel);
             if (GUILayout.Button("Import objects"))
             {
@@ -79,7 +79,7 @@ namespace Editor
             {
                 ObjectData objectData = new ObjectData()
                 {
-                    id = gameObject.GetInstanceID(),
+                    id = gameObject.GetComponent<ObjectView>().Id,
                     name = gameObject.name,
                     type = gameObject.GetComponent<ObjectView>().Type,
                     position = gameObject.transform.position,
@@ -89,22 +89,22 @@ namespace Editor
                     isActive = gameObject.activeSelf,
                     producedObjectId = gameObject.GetComponent<ProducerObjectView>()?.ProducedObjectId
                 };
-                
+
                 levelData.objects.Add(objectData);
             }
-            
+
             string json = JsonUtility.ToJson(levelData, true);
 
             if (!Directory.Exists(_outputPath))
             {
                 Directory.CreateDirectory(_outputPath);
             }
-            
+
             File.WriteAllText(Path.Combine(_outputPath, _saveFile), json);
             Debug.Log($"Level data exported to {Path.Combine(_outputPath, _saveFile)}");
         }
 
-        private void Import()
+        private async void Import()
         {
             string path = EditorUtility.OpenFilePanel("Import Level", "Assets/Levels/", "json");
 
@@ -125,24 +125,28 @@ namespace Editor
 
             foreach (var levelObject in levelData.objects)
             {
-                GameObject gameObject = new GameObject(levelObject.name);
-                gameObject.transform.position = levelObject.position;
-                gameObject.transform.rotation = Quaternion.Euler(levelObject.rotation);
-                gameObject.transform.localScale = levelObject.scale;
+                var prefab = await LoadResourceEditorUtility.LoadAsset<GameObject>(levelObject.type.ToString());
+                var objectView = Instantiate(prefab);
 
-                if (levelObject.producedObjectId != null)
+                objectView.gameObject.name = levelObject.name;
+                objectView.transform.position = levelObject.position;
+                objectView.transform.rotation = Quaternion.Euler(levelObject.rotation);
+                objectView.transform.localScale = levelObject.scale;
+
+                if (levelObject.producedObjectId != string.Empty)
                 {
-                    gameObject.AddComponent<ProducerObjectView>().Init(levelObject.id, levelObject.type, levelObject.producedObjectId);
+                    objectView.gameObject.GetComponent<ProducerObjectView>().Init(levelObject.id, levelObject.type,
+                        levelObject.producedObjectId);
                 }
                 else
                 {
-                    gameObject.AddComponent<ObjectView>().Init(levelObject.type, levelObject.id);
+                    objectView.gameObject.GetComponent<ObjectView>().Init(levelObject.type, levelObject.id);
                 }
-                
-                gameObject.SetActive(levelObject.isActive);
-                gameObject.layer = LayerMask.NameToLayer(levelObject.layer);
+
+                objectView.gameObject.SetActive(levelObject.isActive);
+                objectView.gameObject.layer = LayerMask.NameToLayer(levelObject.layer);
             }
-            
+
             Debug.Log($"Imported {levelData.objects.Count} objects");
         }
     }

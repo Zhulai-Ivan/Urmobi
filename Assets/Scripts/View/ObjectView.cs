@@ -1,5 +1,4 @@
-﻿using System;
-using Data;
+﻿using Data;
 using UnityEngine;
 
 namespace View
@@ -11,9 +10,9 @@ namespace View
         public ObjectType Type => _type;
         public int Id => _id;
 
-        public virtual void Init(ObjectType type, int id)
+        public void Init(ObjectType type, int id)
         {
-            _id = id;
+            _id = id == 0 ? GetInstanceID() : id;
             _type = type;
         }
     }
